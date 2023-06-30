@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>希儿的美味厨房！</title>
+    <script src="spine/spine-player.js"></script>
+    <link rel="stylesheet" href="spine/spine-player.css">
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="playerContainer"></div>
+    <script>
+        const bgWidth = 2048 * 1.25;
+        const bgHeight = 1406 * 1;
+
+        new spine.SpinePlayer("playerContainer", {
+            animation: "loop",
+            showControls: false,
+            alpha: true,
+            premultipliedAlpha: false,
+            backgroundImage: {
+                url: "data/cgbg.png",
+                x: - bgWidth / 2,
+                y: - bgHeight / 2,
+                width: bgWidth,
+                height: bgHeight,
+            },
+            viewport: {
+                padLeft: "-15%",
+                padRight: "-25%",
+                padTop: "-15%",
+                padBottom: "-25%"
+            },
+            jsonUrl: "data/cg.json",
+            atlasUrl: "data/cg.atlas",
+        });
+        const playerContainer = document.getElementById('playerContainer');
+        function resize() {
+            // 计算屏幕宽高比
+            var screenWidth = window.innerWidth;
+            var screenHeight = window.innerHeight;
+            var screenRatio = screenWidth / screenHeight;
+            // 设置元素比例范围
+            var minRatio = 16 / 9;
+            var maxRatio = 21 / 9;
+            // 检查屏幕比例
+            if (screenRatio < minRatio) {
+                // 过窄屏幕垂直居中16:9
+                var elementHeight = screenWidth / minRatio;
+                var topOffset = (screenHeight - elementHeight) / 2;
+                // 设置元素样式
+                playerContainer.style.width = screenWidth + "px";
+                playerContainer.style.height = elementHeight + "px";
+                playerContainer.style.position = "absolute";
+                playerContainer.style.top = topOffset + "px";
+                playerContainer.style.left = "0";
+            } else if (screenRatio > maxRatio) {
+                // 过宽屏幕水平居中21:9
+                var elementWidth = screenHeight * maxRatio;
+                var leftOffset = (screenWidth - elementWidth) / 2;
+                // 设置元素样式
+                playerContainer.style.width = elementWidth + "px";
+                playerContainer.style.height = screenHeight + "px";
+                playerContainer.style.position = "absolute";
+                playerContainer.style.top = "0";
+                playerContainer.style.left = leftOffset + "px";
+            } else {
+                // 在比例范围内保持原始大小并居中
+                playerContainer.style.width = "100%";
+                playerContainer.style.height = "100%";
+                playerContainer.style.position = "absolute";
+                playerContainer.style.top = "0";
+                playerContainer.style.left = "0";
+            }
+        }
+
+        resize()
+        window.addEventListener("resize", resize);
+    </script>
+</body>
+
+
+</html>
